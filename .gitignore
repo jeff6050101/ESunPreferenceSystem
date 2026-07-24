@@ -1,0 +1,43 @@
+# ---- 建置產物 ----
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# ---- Visual Studio ----
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# ---- Rider / VS Code ----
+.idea/
+.vscode/
+
+# ---- NuGet ----
+*.nupkg
+*.snupkg
+packages/
+!packages/build/
+
+# ---- 發佈產物 ----
+publish/
+[Pp]ublish[Pp]rofiles/*.pubxml.user
+*.[Pp]ublish.xml
+*.azurePubxml
+
+# ---- 測試結果 ----
+[Tt]est[Rr]esult*/
+*.coverage
+*.coveragexml
+
+# ---- 作業系統 ----
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- 本機機密設定（不應進版控）----
+appsettings.*.local.json
+*.pfx

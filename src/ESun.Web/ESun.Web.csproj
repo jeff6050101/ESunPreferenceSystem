@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <!--
+      強制分層：ProjectReference 預設具傳遞性，ESun.Data 會經由 ESun.Business
+      自動流入本專案，使「展示層不得直接存取資料層」形同虛設。
+      關閉傳遞性後，本專案只看得見自己直接參考的組件（Business、Common），
+      任何在展示層直接使用 ESun.Data 的程式碼都會編譯失敗。
+    -->
+    <DisableTransitiveProjectReferences>true</DisableTransitiveProjectReferences>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ESun.Business\ESun.Business.csproj" />
+    <ProjectReference Include="..\ESun.Common\ESun.Common.csproj" />
+  </ItemGroup>
+
+</Project>
