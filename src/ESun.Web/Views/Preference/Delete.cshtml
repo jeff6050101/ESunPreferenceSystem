@@ -1,0 +1,51 @@
+@model ESun.Common.Dtos.PreferenceListItemDto
+@{
+    ViewData["Title"] = "刪除喜好金融商品";
+}
+
+<h2>刪除喜好金融商品</h2>
+<hr />
+
+@* 危險動作先警告使用者（金融系統：不可復原的操作一定要確認）*@
+<div class="alert alert-warning">
+    確定要刪除以下喜好商品嗎？此動作無法復原。
+</div>
+
+@* ── 唯讀明細 ──
+   <dl>（description list）：<dt> 放欄位名、<dd> 放值。
+   全部用 @Model.X 直接輸出（一樣自動 HTML 編碼 → 防 XSS），沒有任何 <input>。 *@
+<dl class="row mb-4">
+    <dt class="col-sm-3">產品名稱</dt>
+    <dd class="col-sm-9">@Model.ProductName</dd>
+
+    <dt class="col-sm-3">產品價格（台幣）</dt>
+    <dd class="col-sm-9">@Model.Price.ToString("N2")</dd>
+
+    @* TODO：扣款帳號（Account）*@
+    <dt class="col-sm-3">扣款帳號</dt>
+    <dd class="col-sm-9">@Model.Account</dd>
+
+    @* TODO：購買數量（PurchaseQuantity）— 值用 @Model.PurchaseQuantity.ToString("N0") *@
+    <dt class="col-sm-3">購買數量</dt>
+    <dd class="col-sm-9">@Model.PurchaseQuantity.ToString("N0")</dd>
+
+    @* TODO：總手續費（TotalFee）— 值用 @Model.TotalFee.ToString("N2") *@
+    <dt class="col-sm-3">總手續費（台幣）</dt>
+    <dd class="col-sm-9">@Model.TotalFee.ToString("N2")</dd>
+
+    @* TODO：預計扣款總金額（TotalAmount）— 值用 @Model.TotalAmount.ToString("N2") *@
+    <dt class="col-sm-3">預計扣款總金額（台幣）</dt>
+    <dd class="col-sm-9">@Model.TotalAmount.ToString("N2")</dd>
+</dl>
+
+@* ── 只帶 SN 的 POST 表單 ──
+   刪除會改變資料 → 必須用 POST，不能用 <a> 連結（GET 不該改狀態，會被預抓/爬蟲誤刪）。
+   asp-action="Delete" + method="post" → 打到 Controller 的 DeleteConfirmed（它掛了 [ActionName("Delete")]）。
+   form tag helper 在 method="post" 時會自動加上 AntiForgeryToken → 防 CSRF。         *@
+<form asp-action="Delete" method="post">
+    @* 告訴後端要刪哪一筆；name="id" 對應 DeleteConfirmed(int id) 的參數名 *@
+    <input type="hidden" name="id" value="@Model.SN" />
+
+    <button type="submit" class="btn btn-danger">確定刪除</button>
+    <a asp-action="Index" class="btn btn-secondary">取消</a>
+</form>

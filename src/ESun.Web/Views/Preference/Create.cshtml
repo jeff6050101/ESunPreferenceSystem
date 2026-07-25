@@ -1,0 +1,59 @@
+@model ESun.Web.Models.PreferenceFormViewModel
+@{
+    ViewData["Title"] = "新增喜好金融商品";
+}
+
+<h2>新增喜好金融商品</h2>
+<hr />
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    @* UserID 不給使用者看，但要跟著送出 → 隱藏欄位 *@
+    <input type="hidden" asp-for="UserID" />
+
+    @* ===== 範例：產品名稱（照這個模式做其餘 4 個）===== *@
+    <div class="mb-3">
+        <label asp-for="ProductName" class="form-label"></label>
+        <input asp-for="ProductName" class="form-control" />
+        <span asp-validation-for="ProductName" class="text-danger"></span>
+    </div>
+
+    @* TODO：Price（產品價格）*@
+    <div class="mb-3">
+        <label asp-for="Price" class="form-label"></label>
+        <input asp-for="Price" class="form-control" />
+        <div class="form-text">以新台幣（NT$）計價</div>
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    @* TODO：FeeRate（手續費率）*@
+    <div class="mb-3">
+        <label asp-for="FeeRate" class="form-label"></label>
+        <input asp-for="FeeRate" class="form-control" />
+        <span asp-validation-for="FeeRate" class="text-danger"></span>
+    </div>
+
+    @* TODO：PurchaseQuantity（購買數量）*@
+    <div class="mb-3">
+        <label asp-for="PurchaseQuantity" class="form-label"></label>
+        <input asp-for="PurchaseQuantity" class="form-control" />
+        <span asp-validation-for="PurchaseQuantity" class="text-danger"></span>
+    </div>
+
+
+    @* TODO：Account（扣款帳號）*@
+
+    <div class="mb-3">
+        <label asp-for="Account" class="form-label"></label>
+        <input asp-for="Account" class="form-control" />
+        <span asp-validation-for="Account" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">儲存</button>
+    <a asp-action="Index" class="btn btn-secondary">取消</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
