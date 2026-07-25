@@ -79,7 +79,9 @@ ESunPreferenceSystem/
    ├─ ESun.Web/                展示層
    ├─ ESun.Business/           業務層
    ├─ ESun.Data/              資料層
-   └─ ESun.Common/            共用層
+   ├─ ESun.Common/            共用層
+   ├─ ESun.UnitTests/         單元測試（xUnit）
+   └─ ESun.IntegrationTests/  整合測試（主控台程式）
 ```
 
 ---
@@ -150,6 +152,29 @@ User (1) ──< LikeList >── (1) Product
 - `預計扣款總金額 TotalAmount = 產品價格 × 購買數量 + 總手續費`
 
 計算於**業務層**進行（四捨五入採 `MidpointRounding.AwayFromZero`），結果以快照存入 `LikeList`。金額欄位一律使用 `DECIMAL`。
+
+---
+
+## 測試
+
+| 專案 | 類型 | 測什麼 | 需資料庫 |
+|---|---|---|---|
+| `ESun.UnitTests` | xUnit 單元測試 | 業務層計算：手續費／總額、四捨五入邊界（逢五進位） | 否 |
+| `ESun.IntegrationTests` | 整合測試（主控台程式） | 資料層打真實 SP：CRUD、跨表交易、越權（IDOR）防護 | 是 |
+
+**單元測試**（不需資料庫，任何環境可執行）：
+
+```bash
+dotnet test src/ESun.UnitTests
+```
+
+**整合測試**（需先完成上方「建立資料庫」，並確保資料為初始種子狀態，可重跑 `DB/03_DML.sql` 重置）：
+
+```bash
+dotnet run --project src/ESun.IntegrationTests
+```
+
+依序驗證使用者查詢、清單隔離、越權存取被擋、新增／更改的跨表交易、刪除與邊界情況，最後輸出通過／失敗統計。
 
 ---
 

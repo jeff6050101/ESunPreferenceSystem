@@ -42,9 +42,8 @@ desktop.ini
 appsettings.*.local.json
 *.pfx
 
-# ---- 本次暫不繳交（測試文件與整合測試專案）----
+# ---- 暫不繳交的測試文件 ----
 DB/SP測試案例.md
-src/ESun.IntegrationTests/
 
 # ---- 誤產生的複製檔（任何副檔名）----
 * - 複製*
