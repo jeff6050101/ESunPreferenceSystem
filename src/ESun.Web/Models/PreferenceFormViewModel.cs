@@ -16,7 +16,6 @@ namespace ESun.Web.Models
         [Required]
         public string UserID { get; set; } = string.Empty;
 
-        // ===== 範例（已完成）：照這個模式替下面的欄位加上驗證 =====
         [Required(ErrorMessage = "請輸入產品名稱")]
         [StringLength(100, ErrorMessage = "產品名稱不可超過 100 字")]
         [Display(Name = "產品名稱")]

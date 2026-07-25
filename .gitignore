@@ -46,5 +46,5 @@ appsettings.*.local.json
 DB/SP測試案例.md
 src/ESun.IntegrationTests/
 
-# ---- 誤產生的複製檔 ----
-* - 複製*.sql
+# ---- 誤產生的複製檔（任何副檔名）----
+* - 複製*

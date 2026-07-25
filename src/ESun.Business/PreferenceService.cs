@@ -44,11 +44,6 @@ namespace ESun.Business
         public static (decimal totalFee, decimal totalAmount) Calculate(
             decimal price, int quantity, decimal feeRate)
         {
-            // TODO（你的部分）：
-            // 1. 算出小計 subtotal
-            // 2. 算出 totalFee，用 Math.Round(..., 4, MidpointRounding.AwayFromZero)
-            // 3. 算出 totalAmount
-            // 4. return (totalFee, totalAmount);
             decimal subtotal = price * quantity;
             decimal totalFee = Math.Round(subtotal * feeRate, 4, MidpointRounding.AwayFromZero);
             decimal totalAmount = subtotal + totalFee;
@@ -61,16 +56,12 @@ namespace ESun.Business
         // ===================================================================
         public Task<int> AddAsync(PreferenceInputDto input)
         {
-            // TODO（你的部分）：
-            // 1. var (fee, amount) = Calculate(input.Price, input.PurchaseQuantity, input.FeeRate);
-            // 2. return _repository.AddAsync(input, fee, amount);
             var (fee, amount) = Calculate(input.Price, input.PurchaseQuantity, input.FeeRate);
             return _repository.AddAsync(input, fee, amount);
         }
 
         public Task<int> UpdateAsync(PreferenceInputDto input)
         {
-            // TODO（你的部分）：同 AddAsync，但呼叫 _repository.UpdateAsync
             var (fee, amount) = Calculate(input.Price, input.PurchaseQuantity, input.FeeRate);
             return _repository.UpdateAsync(input, fee, amount);
         }

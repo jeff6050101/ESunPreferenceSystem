@@ -22,68 +22,44 @@ namespace ESun.Data
             _connectionFactory = connectionFactory;
         }
 
-        // ===================================================================
-        // 範例：查詢喜好清單【需求 2】
-        // 其餘方法請照此模式實作
-        // ===================================================================
         public async Task<IEnumerable<PreferenceListItemDto>> GetListAsync(string userID)
         {
-            // using 確保連線用完歸還連線池；Dapper 會自動開啟連線
             using IDbConnection conn = _connectionFactory.CreateConnection();
 
             return await conn.QueryAsync<PreferenceListItemDto>(
                 "usp_Preference_GetList",
-                new 
-                {
-                    UserID = userID 
-                },                 // 參數：匿名物件的屬性名須與 SP 參數同名
-                commandType: CommandType.StoredProcedure // 關鍵：告訴 Dapper 這是 SP 不是 SQL 字串
+                new { UserID = userID },
+                commandType: CommandType.StoredProcedure
             );
         }
 
-
-        // ===================================================================
-        // TODO：以下五個方法由你實作
-        // ===================================================================
-
-        // 提示：回傳多筆 → QueryAsync<T>
-        //       SP 無參數時，第二個參數可省略
         public async Task<IEnumerable<User>> GetUsersAsync()
         {
-            // using 確保連線用完歸還連線池；Dapper 會自動開啟連線
             using IDbConnection conn = _connectionFactory.CreateConnection();
 
             return await conn.QueryAsync<User>(
                 "usp_User_GetList",
                 commandType: CommandType.StoredProcedure
                 );
-
-            
         }
 
-        // 提示：回傳單筆或 null → QueryFirstOrDefaultAsync<T>
-        //       （不要用 QueryFirstAsync，那個查無資料時會拋例外）
-        //       SP 參數：@SN、@UserID
+        // 用 QueryFirstOrDefaultAsync 而非 QueryFirstAsync：查無資料時回傳 null 而非拋例外
         public async Task<PreferenceListItemDto?> GetByIdAsync(int sn, string userID)
         {
             using IDbConnection conn = _connectionFactory.CreateConnection();
 
             return await conn.QueryFirstOrDefaultAsync<PreferenceListItemDto>(
                 "usp_Preference_GetById",
-                new 
-                { 
+                new
+                {
                     SN = sn,
-                    UserID = userID 
+                    UserID = userID
                 },
                 commandType: CommandType.StoredProcedure
                 );
-
-            
         }
 
-        // 提示：SP 最後是 SELECT @NewSN AS SN，只回傳單一值 → ExecuteScalarAsync<int>
-        //       SP 參數共 8 個：@UserID、@ProductName、@Price、@FeeRate、
-        //                       @PurchaseQuantity、@Account、@TotalFee、@TotalAmount
+        // SP 以 SELECT @NewSN AS SN 回傳單一純量值，故用 ExecuteScalarAsync<int>
         public async Task<int> AddAsync(PreferenceInputDto input, decimal totalFee, decimal totalAmount)
         {
             using IDbConnection conn = _connectionFactory.CreateConnection();
@@ -98,8 +74,7 @@ namespace ESun.Data
                 );
         }
 
-        // 提示：SP 回傳 SELECT ? AS AffectedRows → ExecuteScalarAsync<int>
-        //       比 Add 多一個 @SN（input.SN 是 int?，SP 需要 int，要處理轉換）
+        // SP 以 SELECT ... AS AffectedRows 回傳單一純量值，故同樣用 ExecuteScalarAsync<int>
         public async Task<int> UpdateAsync(PreferenceInputDto input, decimal totalFee, decimal totalAmount)
         {
             using IDbConnection conn = _connectionFactory.CreateConnection();
@@ -122,7 +97,6 @@ namespace ESun.Data
                 );
         }
 
-        // 提示：SP 參數：@SN、@UserID
         public async Task<int> DeleteAsync(int sn, string userID)
         {
             using IDbConnection conn = _connectionFactory.CreateConnection();

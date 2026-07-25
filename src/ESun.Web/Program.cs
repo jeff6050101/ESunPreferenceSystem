@@ -2,7 +2,6 @@ using ESun.Business;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// MVC
 builder.Services.AddControllersWithViews();
 
 // 註冊業務層（內部一併帶入資料層）—— Web 不需直接參考 ESun.Data
