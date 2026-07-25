@@ -168,7 +168,7 @@ User (1) ──< LikeList >── (1) Product
 dotnet test src/ESun.UnitTests
 ```
 
-**整合測試**（需先完成上方「建立資料庫」，並確保資料為初始種子狀態，可重跑 `DB/03_DML.sql` 重置）：
+**整合測試**（需先完成上方「建立資料庫」，並確保資料為初始測試資料的狀態，可重跑 `DB/03_DML.sql` 重置）：
 
 ```bash
 dotnet run --project src/ESun.IntegrationTests
